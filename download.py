@@ -12,9 +12,17 @@ import subprocess
 import uvicorn
 from urllib.parse import urlparse
 import asyncio
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="YouTube Downloader API")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or restrict to your frontend domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # --- Dependency Check ---
 def check_dependencies():
@@ -153,4 +161,4 @@ async def api_download(request: VideoRequest, background: BackgroundTasks):
 
 # --- Run Server ---
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=1000)
+    uvicorn.run(app, host="127.0.0.1", port=2000)
